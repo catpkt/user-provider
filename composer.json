@@ -1,0 +1,14 @@
+{
+    "name": "catpkt/user-provider",
+    "description": "Providing third part users for other projects.",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Fenz",
+            "email": "uukoo@163.com"
+        }
+    ],
+    "require": {
+        "fenzland/http": "^0.1.3"
+    }
+}
