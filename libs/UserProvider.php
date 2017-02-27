@@ -64,7 +64,7 @@ class UserProvider
 	 */
 	public function getToken( string$thirdId, string$introducer=null ):string
 	{
-		HTTP::url($this->uri)->post($this->encrypt(
+		return HTTP::url($this->uri)->post($this->encrypt(
 			[ 'thirdId'=>$thirdId, ]+($introducer? [ 'introducer'=>$introducer, ] : [] )
 		));
 	}
