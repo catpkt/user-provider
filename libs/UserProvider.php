@@ -47,7 +47,7 @@ class UserProvider
 	 */
 	public function __construct( string$uri,string$key, string$method='AES-256-CBC' )
 	{
-		$this->uri= $uri;
+		$this->uri= substr( $uri, -1 )==='/'? $uri : "$uri/";substr( $uri, -1 )==='/'? $uri : "$uri/";
 		$this->key= $key;
 		$this->method= $method;
 	}
