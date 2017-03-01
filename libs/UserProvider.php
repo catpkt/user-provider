@@ -65,7 +65,7 @@ class UserProvider
 	public function getToken( string$thirdId, string$introducer=null ):Response
 	{
 		return HTTP::url($this->uri)->post($this->encrypt(
-			[ 'thirdId'=>$thirdId, ]+($introducer? [ 'introducer'=>$introducer, ] : [] )
+			[ 'third_id'=>$thirdId, ]+($introducer? [ 'introducer'=>$introducer, ] : [] )
 		));
 	}
 
@@ -80,9 +80,14 @@ class UserProvider
 	 */
 	private function encrypt( $data ):void
 	{
-		$iv= random_bytes($this->ivLength);
+		$iv= random_bytes(16);
 
-		$value= openssl_decrypt( serialize($data), $this->method, $this->key, 0, $iv );
+		$value= openssl_encrypt( serialize($data), $this->method, $this->key, 0, $iv );
+
+		if( $value===false )
+		{
+			throw new EncryptException('Could not encrypt the data.');
+		}
 
 		$iv= base64_encode($iv);
 
