@@ -2,7 +2,7 @@
 
 namespace CatPKT\UserProvider;
 
-use FenzHTTP\HTTP;
+use FenzHTTP\{  HTTP,  Response  };
 
 ////////////////////////////////////////////////////////////////
 
@@ -60,9 +60,9 @@ class UserProvider
 	 * @param  string $thirdId
 	 * @param  string $introducer
 	 *
-	 * @return string
+	 * @return Response
 	 */
-	public function getToken( string$thirdId, string$introducer=null ):string
+	public function getToken( string$thirdId, string$introducer=null ):Response
 	{
 		return HTTP::url($this->uri)->post($this->encrypt(
 			[ 'thirdId'=>$thirdId, ]+($introducer? [ 'introducer'=>$introducer, ] : [] )
