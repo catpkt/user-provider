@@ -19,7 +19,7 @@ class UserProvider
 	private $uri;
 
 	/**
-	 * Var kei
+	 * Var key
 	 *
 	 * @access private
 	 *
@@ -47,7 +47,7 @@ class UserProvider
 	 */
 	public function __construct( string$uri,string$key, string$method='AES-256-CBC' )
 	{
-		$this->uri= substr( $uri, -1 )==='/'? $uri : "$uri/";substr( $uri, -1 )==='/'? $uri : "$uri/";
+		$this->uri= substr( $uri, -1 )==='/'? $uri : "$uri/";
 		$this->key= $key;
 		$this->method= $method;
 	}
@@ -78,7 +78,7 @@ class UserProvider
 	 *
 	 * @return void
 	 */
-	private function encrypt( $data ):void
+	private function encrypt( $data )
 	{
 		$iv= random_bytes(16);
 
