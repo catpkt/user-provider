@@ -86,7 +86,7 @@ class UserProvider
 
 		if( $value===false )
 		{
-			throw new EncryptException('Could not encrypt the data.');
+			throw new \Exception('Could not encrypt the data.');
 		}
 
 		$iv= base64_encode($iv);
