@@ -47,7 +47,7 @@ class UserProvider
 	 */
 	public function __construct( string$uri,string$key, string$method='AES-256-CBC' )
 	{
-		$this->uri= substr( $uri, -1 )==='/'? $uri : "$uri/";
+		$this->uri= rtrim( $uri, '/' );
 		$this->key= $key;
 		$this->method= $method;
 	}
@@ -64,9 +64,9 @@ class UserProvider
 	 */
 	public function getToken( string$thirdId, string$introducer=null ):Response
 	{
-		return HTTP::url($this->uri)->post($this->encrypt(
+		return HTTP::url( "$this->uri/token" )->post( $this->encrypt(
 			[ 'third_id'=>$thirdId, ]+($introducer? [ 'introducer'=>$introducer, ] : [] )
-		));
+		) );
 	}
 
 	/**
