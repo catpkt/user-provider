@@ -58,14 +58,14 @@ class UserProvider
 	 * @access public
 	 *
 	 * @param  string $thirdId
-	 * @param  string $introducer
+	 * @param  string $label
 	 *
 	 * @return Response
 	 */
-	public function getToken( string$thirdId, string$introducer=null ):Response
+	public function getToken( string$thirdId, string$label ):Response
 	{
 		return HTTP::url( "$this->uri/token" )->post( $this->encrypt(
-			[ 'third_id'=>$thirdId, ]+($introducer? [ 'introducer'=>$introducer, ] : [] )
+			[ 'third_id'=>$thirdId, 'label'=>$label, ]
 		) );
 	}
 
