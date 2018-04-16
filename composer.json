@@ -9,7 +9,8 @@
         }
     ],
     "require": {
-        "fenzland/http": "^0.1.3"
+        "fenzland/http": "^0.1.3",
+        "catpkt/encryptor": ">=0.0.4",
     },
     "autoload": {
         "psr-4": {

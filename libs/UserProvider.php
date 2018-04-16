@@ -3,6 +3,7 @@
 namespace CatPKT\UserProvider;
 
 use FenzHTTP\{  HTTP,  Response  };
+use CatPKT\Encryptor as CE;
 
 ////////////////////////////////////////////////////////////////
 
@@ -19,22 +20,13 @@ class UserProvider
 	private $uri;
 
 	/**
-	 * Var key
+	 * Var encryptor
 	 *
 	 * @access private
 	 *
-	 * @var    string
+	 * @var    CE\IEncryptor
 	 */
-	private $key;
-
-	/**
-	 * Var method
-	 *
-	 * @access private
-	 *
-	 * @var    string
-	 */
-	private $method;
+	private $encryptor;
 
 	/**
 	 * Method __construct
@@ -42,14 +34,12 @@ class UserProvider
 	 * @access public
 	 *
 	 * @param  string $uri
-	 * @param  string $key
-	 * @param  string $method
+	 * @param  CE\IEncryptor $encryptor
 	 */
-	public function __construct( string$uri,string$key, string$method='AES-256-CBC' )
+	public function __construct( string$uri, CE\IEncryptor$encryptor )
 	{
 		$this->uri= rtrim( $uri, '/' );
-		$this->key= $key;
-		$this->method= $method;
+		$this->encryptor= $encryptor;
 	}
 
 	/**
@@ -64,36 +54,9 @@ class UserProvider
 	 */
 	public function getToken( string$thirdId, string$label ):Response
 	{
-		return HTTP::url( "$this->uri/token" )->post( $this->encrypt(
+		return HTTP::url( "$this->uri/token" )->post( $this->encryptor->encrypt(
 			[ 'third_id'=>$thirdId, 'label'=>$label, ]
 		) );
-	}
-
-	/**
-	 * Method encrypt
-	 *
-	 * @access private
-	 *
-	 * @param mixed $data
-	 *
-	 * @return void
-	 */
-	private function encrypt( $data )
-	{
-		$iv= random_bytes(16);
-
-		$value= openssl_encrypt( serialize($data), $this->method, $this->key, 0, $iv );
-
-		if( $value===false )
-		{
-			throw new \Exception('Could not encrypt the data.');
-		}
-
-		$iv= base64_encode($iv);
-
-		$mac= hash_hmac( 'sha256', $iv.$value, $this->key );
-
-		return base64_encode(json_encode([ 'iv'=>$iv, 'value'=>$value, 'mac'=>$mac, ]));
 	}
 
 }
